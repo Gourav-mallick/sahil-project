@@ -23,6 +23,7 @@ export type HomeContent = {
   heroTitle: string;
   heroSubtitle: string;
   heroImage: string;
+  heroVideoUrl: string;
   activeBatch: Batch;
   comingBatch: Batch;
 };

@@ -1,19 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap"
-});
-
-const poppins = Poppins({
-  subsets: ["latin"],
-  variable: "--font-poppins",
-  weight: ["500", "600", "700", "800"],
-  display: "swap"
-});
 
 export const metadata: Metadata = {
   title: "Diploma Coaching | Jharkhand Polytechnic Online Tuition",
@@ -44,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
+    <html lang="en">
       <body>{children}</body>
     </html>
   );

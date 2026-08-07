@@ -1,6 +1,6 @@
 # Diploma Coaching Frontend
 
-Premium static landing site for Jharkhand Polytechnic online tuition. The site uses Next.js, TypeScript, Tailwind CSS, Framer Motion, Lucide icons, and one Excel workbook as a mini CMS.
+Premium landing site for Jharkhand Polytechnic online tuition. The site uses Next.js, TypeScript, Tailwind CSS, Framer Motion, Lucide icons, and Google Sheets as a live mini CMS.
 
 ## Run locally
 
@@ -12,7 +12,74 @@ npm run dev
 
 Open `http://localhost:3000`.
 
-## Update website content
+## Live Google Sheets CMS
+
+The website reads content section-wise from this Google Sheet:
+
+```text
+https://docs.google.com/spreadsheets/d/1O2JYWpTJk8Ek0MmV50Pz5HogEpFevZmwVk3YH59tNC4/edit
+```
+
+Set the Sheet ID in `.env.local`:
+
+```text
+NEXT_PUBLIC_GOOGLE_SHEET_ID=1O2JYWpTJk8Ek0MmV50Pz5HogEpFevZmwVk3YH59tNC4
+GOOGLE_SHEET_ID=1O2JYWpTJk8Ek0MmV50Pz5HogEpFevZmwVk3YH59tNC4
+```
+
+For no-rebuild updates, the Google Sheet must be public enough for the website to fetch CSV data:
+
+1. Open Google Sheet.
+2. Click `Share`.
+3. Set access to `Anyone with the link can view`.
+4. Prefer clear tab names like `Settings`, `Home`, `Courses`, `FAQ`, etc.
+
+The page uses dynamic rendering with `cache: "no-store"`, so content changes appear on refresh without a rebuild.
+
+If you want simple numbered tabs, the loader also supports this order:
+
+| Tab | Website section |
+| --- | --- |
+| Sheet1 | Settings |
+| Sheet2 | Home |
+| Sheet3 | About |
+| Sheet4 | Courses |
+| Sheet5 | Faculty |
+| Sheet6 | FAQ |
+| Sheet7 | Notice |
+| Sheet8 | Join |
+| Sheet9 | Contact |
+| Sheet10 | SocialLinks |
+| Sheet11 | Testimonials |
+| Sheet12 | Gallery |
+
+## Drive images
+
+Images can live in Google Drive. Put the public Drive link directly in the sheet image cell.
+
+Supported examples:
+
+```text
+https://drive.google.com/file/d/FILE_ID/view?usp=sharing
+https://drive.google.com/open?id=FILE_ID
+```
+
+Each Drive image must be shared as `Anyone with the link can view`.
+
+Local filenames still work too:
+
+```text
+hero.jpg
+faculty-sahil.jpg
+```
+
+Those files are loaded from:
+
+```text
+public/assets/
+```
+
+## Optional Excel fallback
 
 Replace this file:
 
@@ -20,7 +87,7 @@ Replace this file:
 public/excel/website-data.xlsx
 ```
 
-Then redeploy the site. Images referenced inside Excel should be placed in:
+If the Google Sheet cannot be read, the site falls back to this Excel file. Images referenced inside Excel should be placed in:
 
 ```text
 public/assets/
@@ -58,6 +125,7 @@ Use one workbook named `website-data.xlsx`.
 | hero_title | Jharkhand Polytechnic Online Tuition |
 | hero_subtitle | Learn From Experienced Faculty |
 | hero_image | hero.jpg |
+| hero_video_url | https://www.youtube.com/watch?v=szj5j8-9L_c |
 | active_batch_title | Active Batch |
 | active_batch_branch | Electrical Engineering |
 | active_batch_semester | 4th Semester |

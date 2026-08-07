@@ -3,6 +3,7 @@ import { ArrowRight, Headphones, NotebookPen, PlayCircle, Target } from "lucide-
 import type { LucideIcon } from "lucide-react";
 import { BatchCard } from "@/components/BatchCard";
 import { MotionReveal } from "@/components/MotionReveal";
+import { YouTubePlayer } from "@/components/YouTubePlayer";
 import type { HomeContent, Settings } from "@/types/content";
 import { assetPath } from "@/utils/assets";
 
@@ -58,8 +59,11 @@ export function Hero({ home, settings }: HeroProps) {
 
         <MotionReveal delay={0.12}>
           <div className="relative">
-            <div className="overflow-hidden rounded-2xl bg-secondary shadow-soft">
-              {heroImage ? (
+            {home.heroVideoUrl ? (
+              <YouTubePlayer url={home.heroVideoUrl} title={`${home.heroTitle} video`} />
+            ) : (
+              <div className="overflow-hidden rounded-2xl bg-secondary shadow-soft">
+                {heroImage ? (
                 <Image
                   src={heroImage}
                   alt=""
@@ -67,16 +71,17 @@ export function Hero({ home, settings }: HeroProps) {
                   height={420}
                   priority
                   className="h-56 w-full object-cover opacity-90 sm:h-72"
-                />
-              ) : (
-                <div className="flex h-56 w-full items-center justify-center bg-gradient-to-br from-secondary via-gray-800 to-amber-900 text-center text-white sm:h-72">
-                  <div>
-                    <p className="font-heading text-3xl font-bold">Diploma Coaching</p>
-                    <p className="mt-2 text-sm text-amber-100">Live classes for diploma students</p>
+                  />
+                ) : (
+                  <div className="flex h-56 w-full items-center justify-center bg-gradient-to-br from-secondary via-gray-800 to-amber-900 text-center text-white sm:h-72">
+                    <div>
+                      <p className="font-heading text-3xl font-bold">Diploma Coaching</p>
+                      <p className="mt-2 text-sm text-amber-100">Live classes for diploma students</p>
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
+                )}
+              </div>
+            )}
             <div className="mt-5 grid gap-4 md:grid-cols-2">
               <BatchCard batch={home.activeBatch} />
               <BatchCard batch={home.comingBatch} compact />

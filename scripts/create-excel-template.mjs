@@ -22,6 +22,7 @@ const sheets = {
     ["hero_title", "Jharkhand Polytechnic Online Tuition"],
     ["hero_subtitle", "Learn from experienced faculty with live classes, notes, practice, and doubt support."],
     ["hero_image", "hero.jpg"],
+    ["hero_video_url", "https://www.youtube.com/watch?v=szj5j8-9L_c"],
     ["active_batch_title", "Active Batch"],
     ["active_batch_branch", "Electrical Engineering"],
     ["active_batch_semester", "4th Semester"],

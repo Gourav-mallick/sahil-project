@@ -5,6 +5,8 @@
 :root {
   color-scheme: light;
   scroll-behavior: smooth;
+  --font-inter: Inter, Arial, sans-serif;
+  --font-poppins: Poppins, Inter, Arial, sans-serif;
 }
 
 * {

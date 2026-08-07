@@ -35,6 +35,7 @@ export const fallbackData: WebsiteData = {
     heroTitle: "Jharkhand Polytechnic Online Tuition",
     heroSubtitle: "Learn from experienced faculty with live classes, notes, practice, and doubt support.",
     heroImage: "",
+    heroVideoUrl: "https://www.youtube.com/watch?v=szj5j8-9L_c",
     activeBatch,
     comingBatch
   },

@@ -13,6 +13,9 @@ import { Testimonials } from "@/components/sections/Testimonials";
 import { WhyChooseUs } from "@/components/sections/WhyChooseUs";
 import { loadWebsiteData } from "@/lib/loadWebsiteData";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function HomePage() {
   const data = await loadWebsiteData();
 

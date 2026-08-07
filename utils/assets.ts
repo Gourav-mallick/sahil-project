@@ -3,11 +3,27 @@ export function assetPath(filename: string): string {
     return "";
   }
 
-  if (filename.startsWith("http") || filename.startsWith("/")) {
+  if (filename.startsWith("/")) {
     return filename;
   }
 
+  if (filename.startsWith("http")) {
+    return toDriveImageUrl(filename);
+  }
+
   return `/assets/${filename}`;
+}
+
+function toDriveImageUrl(url: string): string {
+  const patterns = [/\/file\/d\/([^/]+)/, /[?&]id=([^&]+)/, /\/d\/([^/]+)/];
+  const match = patterns.map((pattern) => url.match(pattern)).find(Boolean);
+  const id = match?.[1];
+
+  if (!id || !url.includes("drive.google.com")) {
+    return url;
+  }
+
+  return `https://drive.google.com/uc?export=view&id=${id}`;
 }
 
 export function initials(name: string): string {
