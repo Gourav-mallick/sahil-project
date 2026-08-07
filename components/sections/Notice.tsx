@@ -15,9 +15,17 @@ export function Notice({ notices }: NoticeProps) {
           <h2 className="section-title">Latest batch and class updates</h2>
         </MotionReveal>
 
-        <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div
+          className={`mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3 ${
+            notices.length === 1 ? "md:flex md:justify-center" : ""
+          }`}
+        >
           {notices.map((notice, index) => (
-            <MotionReveal key={`${notice.date}-${notice.title}`} delay={index * 0.04} className="card p-6">
+            <MotionReveal
+              key={`${notice.date}-${notice.title}`}
+              delay={index * 0.04}
+              className={`card p-6 ${notices.length === 1 ? "w-full md:max-w-sm" : ""}`}
+            >
               <div className="mb-4 flex items-center justify-between gap-3">
                 <span className="text-sm font-semibold text-muted">{notice.date}</span>
                 {notice.important ? (

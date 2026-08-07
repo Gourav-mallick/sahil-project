@@ -7,6 +7,7 @@ import { Footer } from "@/components/sections/Footer";
 import { Gallery } from "@/components/sections/Gallery";
 import { Hero } from "@/components/sections/Hero";
 import { Join } from "@/components/sections/Join";
+import { MissingContent } from "@/components/MissingContent";
 import { Navbar } from "@/components/sections/Navbar";
 import { Notice } from "@/components/sections/Notice";
 import { Testimonials } from "@/components/sections/Testimonials";
@@ -18,6 +19,10 @@ export const revalidate = 0;
 
 export default async function HomePage() {
   const data = await loadWebsiteData();
+
+  if (!data) {
+    return <MissingContent />;
+  }
 
   const jsonLd = {
     "@context": "https://schema.org",

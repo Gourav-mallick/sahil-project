@@ -17,11 +17,19 @@ export function Testimonials({ testimonials }: TestimonialsProps) {
           <h2 className="section-title">Student feedback that builds trust</h2>
         </MotionReveal>
 
-        <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div
+          className={`mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3 ${
+            testimonials.length === 1 ? "md:flex md:justify-center" : ""
+          }`}
+        >
           {testimonials.map((item, index) => {
             const image = assetPath(item.image);
             return (
-              <MotionReveal key={`${item.studentName}-${index}`} delay={index * 0.04} className="card p-6">
+              <MotionReveal
+                key={`${item.studentName}-${index}`}
+                delay={index * 0.04}
+                className={`card p-6 ${testimonials.length === 1 ? "w-full md:max-w-sm" : ""}`}
+              >
                 <div className="flex items-center gap-4">
                   {image ? (
                     <Image

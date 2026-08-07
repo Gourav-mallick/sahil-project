@@ -22,11 +22,19 @@ export function Gallery({ gallery }: GalleryProps) {
           <h2 className="section-title">A glimpse of classes, notes, and student support</h2>
         </MotionReveal>
 
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div
+          className={`mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 ${
+            gallery.length === 1 ? "sm:flex sm:justify-center" : ""
+          }`}
+        >
           {gallery.map((item, index) => {
             const image = assetPath(item.image);
             return (
-              <MotionReveal key={`${item.caption}-${index}`} delay={index * 0.04}>
+              <MotionReveal
+                key={`${item.caption}-${index}`}
+                delay={index * 0.04}
+                className={gallery.length === 1 ? "w-full sm:max-w-md" : ""}
+              >
                 <button
                   type="button"
                   onClick={() => image && setSelected(item)}

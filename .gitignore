@@ -51,3 +51,7 @@ temp/
 
 # Optional
 *.pem
+
+.npm-cache/
+.playwright-browsers/
+screenshots/

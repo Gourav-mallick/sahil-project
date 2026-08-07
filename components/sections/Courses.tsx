@@ -16,9 +16,17 @@ export function Courses({ courses }: CoursesProps) {
           <h2 className="section-title">Diploma branches covered with structured learning</h2>
         </MotionReveal>
 
-        <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+        <div
+          className={`mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4 ${
+            courses.length === 1 ? "md:flex md:justify-center" : ""
+          }`}
+        >
           {courses.map((course, index) => (
-            <MotionReveal key={course.branch} delay={index * 0.04} className="card p-6">
+            <MotionReveal
+              key={course.branch}
+              delay={index * 0.04}
+              className={`card p-6 ${courses.length === 1 ? "w-full md:max-w-sm" : ""}`}
+            >
               <IconBadge name={course.icon} label={course.branch} />
               <h3 className="mt-5 font-heading text-xl font-bold text-secondary">{course.branch}</h3>
               <p className="mt-3 min-h-24 text-sm leading-6 text-muted">{course.description}</p>

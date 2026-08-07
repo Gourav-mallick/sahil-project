@@ -42,9 +42,17 @@ function BatchGroup({
       <MotionReveal>
         <h3 className="font-heading text-2xl font-bold text-secondary">{title}</h3>
       </MotionReveal>
-      <div className="mt-5 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+      <div
+        className={`mt-5 grid gap-5 md:grid-cols-2 xl:grid-cols-4 ${
+          batches.length === 1 ? "md:flex md:justify-center" : ""
+        }`}
+      >
         {batches.map((batch, index) => (
-          <MotionReveal key={`${batch.status}-${batch.branch}-${batch.semester}-${index}`} delay={index * 0.04}>
+          <MotionReveal
+            key={`${batch.status}-${batch.branch}-${batch.semester}-${index}`}
+            delay={index * 0.04}
+            className={batches.length === 1 ? "w-full md:max-w-sm" : ""}
+          >
             <BatchCard batch={batch} compact={compact} />
           </MotionReveal>
         ))}

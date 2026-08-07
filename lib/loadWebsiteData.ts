@@ -37,7 +37,7 @@ function settingValue(settingsSheet: Record<string, string>, keys: string[], fal
   return keys.map((key) => settingsSheet[key]).find(Boolean) || fallback;
 }
 
-export async function loadWebsiteData(): Promise<WebsiteData> {
+export async function loadWebsiteData(): Promise<WebsiteData | null> {
   const googleData = await loadGoogleWebsiteData();
   if (googleData) {
     return googleData;
@@ -141,9 +141,9 @@ export async function loadWebsiteData(): Promise<WebsiteData> {
       enrollmentSteps: splitList(homeSheet.enrollment_steps, fallbackData.enrollmentSteps)
     };
 
-    return withArrayFallbacks(data);
+    return data;
   } catch {
-    return fallbackData;
+    return null;
   }
 }
 
@@ -192,7 +192,7 @@ async function loadGoogleWebsiteData(): Promise<WebsiteData | null> {
     const activeBatch = join.activeBatches[0] || fallbackData.home.activeBatch;
     const comingBatch = join.upcomingBatches[0] || fallbackData.home.comingBatch;
 
-    return withArrayFallbacks({
+    return {
       settings,
       home: {
         heroTitle: homeSheet.hero_title || fallbackData.home.heroTitle,
@@ -254,8 +254,8 @@ async function loadGoogleWebsiteData(): Promise<WebsiteData | null> {
         caption: pick(row, ["Caption"])
       })),
       whyChooseUs: splitList(homeSheet.why_choose_us, fallbackData.whyChooseUs),
-      enrollmentSteps: splitList(homeSheet.enrollment_steps, fallbackData.enrollmentSteps)
-    });
+      enrollmentSteps: splitList(homeSheet.enrollment_steps, [])
+    };
   } catch {
     return null;
   }
@@ -309,15 +309,41 @@ function makeJoinContent(
 
   if (activeBatches.length || upcomingBatches.length) {
     return {
-      activeBatches: activeBatches.length ? activeBatches : fallbackData.join.activeBatches,
-      upcomingBatches: upcomingBatches.length ? upcomingBatches : fallbackData.join.upcomingBatches
+      activeBatches,
+      upcomingBatches
+    };
+  }
+
+  if (!hasLegacyBatch(homeSheet, joinSheet, "active") && !hasLegacyBatch(homeSheet, joinSheet, "coming")) {
+    return {
+      activeBatches: [],
+      upcomingBatches: []
     };
   }
 
   return {
-    activeBatches: [makeBatch(homeSheet, joinSheet, "active", fallbackData.home.activeBatch)],
-    upcomingBatches: [makeBatch(homeSheet, joinSheet, "coming", fallbackData.home.comingBatch)]
+    activeBatches: hasLegacyBatch(homeSheet, joinSheet, "active")
+      ? [makeBatch(homeSheet, joinSheet, "active", fallbackData.home.activeBatch)]
+      : [],
+    upcomingBatches: hasLegacyBatch(homeSheet, joinSheet, "coming")
+      ? [makeBatch(homeSheet, joinSheet, "coming", fallbackData.home.comingBatch)]
+      : []
   };
+}
+
+function hasLegacyBatch(
+  homeSheet: Record<string, string>,
+  joinSheet: Record<string, string>,
+  prefix: "active" | "coming"
+): boolean {
+  return Boolean(
+    homeSheet[`${prefix}_batch_branch`] ||
+      joinSheet[`${prefix}_batch_branch`] ||
+      homeSheet[`${prefix}_batch_title`] ||
+      joinSheet[`${prefix}_batch_title`] ||
+      homeSheet[`${prefix}_batch_form`] ||
+      joinSheet[`${prefix}_batch_form`]
+  );
 }
 
 function makeBatchFromRow(row: Record<string, unknown>): Batch | null {
@@ -365,17 +391,4 @@ function splitList(value: string | undefined, fallback: string[]): string[] {
     .split("|")
     .map((item) => item.trim())
     .filter(Boolean);
-}
-
-function withArrayFallbacks(data: WebsiteData): WebsiteData {
-  return {
-    ...data,
-    courses: data.courses.length ? data.courses : fallbackData.courses,
-    faculty: data.faculty.length ? data.faculty : fallbackData.faculty,
-    faq: data.faq.length ? data.faq : fallbackData.faq,
-    notice: data.notice.length ? data.notice : fallbackData.notice,
-    socialLinks: data.socialLinks.length ? data.socialLinks : fallbackData.socialLinks,
-    testimonials: data.testimonials.length ? data.testimonials : fallbackData.testimonials,
-    gallery: data.gallery.length ? data.gallery : fallbackData.gallery
-  };
 }
