@@ -33,6 +33,10 @@ const sheetTabs = {
   gallery: ["Gallery", "Sheet12"]
 };
 
+function settingValue(settingsSheet: Record<string, string>, keys: string[], fallback: string): string {
+  return keys.map((key) => settingsSheet[key]).find(Boolean) || fallback;
+}
+
 export async function loadWebsiteData(): Promise<WebsiteData> {
   const googleData = await loadGoogleWebsiteData();
   if (googleData) {
@@ -46,21 +50,27 @@ export async function loadWebsiteData(): Promise<WebsiteData> {
     const homeSheet = readKeyValueSheet(workbook, "Home");
     const aboutSheet = readKeyValueSheet(workbook, "About");
     const joinSheet = readKeyValueSheet(workbook, "Join");
+    const joinRows = readTableSheet<Record<string, unknown>>(workbook, "Join");
     const contactSheet = readKeyValueSheet(workbook, "Contact");
 
     const settings: Settings = {
-      primaryColor: settingsSheet.primary_color || fallbackData.settings.primaryColor,
-      secondaryColor: settingsSheet.secondary_color || fallbackData.settings.secondaryColor,
-      supportNumber: settingsSheet.support_number || fallbackData.settings.supportNumber,
-      email: settingsSheet.email || fallbackData.settings.email,
-      whatsappLink: settingsSheet.whatsapp_link || fallbackData.settings.whatsappLink,
-      logo: settingsSheet.logo || fallbackData.settings.logo,
-      favicon: settingsSheet.favicon || fallbackData.settings.favicon,
-      instituteName: settingsSheet.institute_name || fallbackData.settings.instituteName
+      primaryColor: settingValue(settingsSheet, ["primary_color"], fallbackData.settings.primaryColor),
+      secondaryColor: settingValue(settingsSheet, ["secondary_color"], fallbackData.settings.secondaryColor),
+      supportNumber: settingValue(settingsSheet, ["support_number"], fallbackData.settings.supportNumber),
+      email: settingValue(settingsSheet, ["email"], fallbackData.settings.email),
+      whatsappLink: settingValue(
+        settingsSheet,
+        ["whatsapp_link", "whats_app_link"],
+        fallbackData.settings.whatsappLink
+      ),
+      logo: settingValue(settingsSheet, ["logo"], fallbackData.settings.logo),
+      favicon: settingValue(settingsSheet, ["favicon"], fallbackData.settings.favicon),
+      instituteName: settingValue(settingsSheet, ["institute_name"], fallbackData.settings.instituteName)
     };
 
-    const activeBatch = makeBatch(homeSheet, joinSheet, "active", fallbackData.home.activeBatch);
-    const comingBatch = makeBatch(homeSheet, joinSheet, "coming", fallbackData.home.comingBatch);
+    const join = makeJoinContent(joinRows, homeSheet, joinSheet);
+    const activeBatch = join.activeBatches[0] || fallbackData.home.activeBatch;
+    const comingBatch = join.upcomingBatches[0] || fallbackData.home.comingBatch;
 
     const data: WebsiteData = {
       settings,
@@ -105,8 +115,8 @@ export async function loadWebsiteData(): Promise<WebsiteData> {
         }))
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()),
       join: {
-        activeBatch,
-        comingBatch
+        activeBatches: join.activeBatches,
+        upcomingBatches: join.upcomingBatches
       },
       contact: makeContact(contactSheet),
       socialLinks: readTableSheet<Record<string, unknown>>(workbook, "SocialLinks").map<SocialLink>(
@@ -151,30 +161,36 @@ async function loadGoogleWebsiteData(): Promise<WebsiteData | null> {
       return null;
     }
 
-    const [courseRows, facultyRows, faqRows, noticeRows, socialRows, testimonialRows, galleryRows] =
+    const [courseRows, facultyRows, faqRows, noticeRows, joinRows, socialRows, testimonialRows, galleryRows] =
       await Promise.all([
         readGoogleTableSheet(sheetTabs.courses),
         readGoogleTableSheet(sheetTabs.faculty),
         readGoogleTableSheet(sheetTabs.faq),
         readGoogleTableSheet(sheetTabs.notice),
+        readGoogleTableSheet(sheetTabs.join),
         readGoogleTableSheet(sheetTabs.socialLinks),
         readGoogleTableSheet(sheetTabs.testimonials),
         readGoogleTableSheet(sheetTabs.gallery)
       ]);
 
     const settings: Settings = {
-      primaryColor: settingsSheet.primary_color || fallbackData.settings.primaryColor,
-      secondaryColor: settingsSheet.secondary_color || fallbackData.settings.secondaryColor,
-      supportNumber: settingsSheet.support_number || fallbackData.settings.supportNumber,
-      email: settingsSheet.email || fallbackData.settings.email,
-      whatsappLink: settingsSheet.whatsapp_link || fallbackData.settings.whatsappLink,
-      logo: settingsSheet.logo || fallbackData.settings.logo,
-      favicon: settingsSheet.favicon || fallbackData.settings.favicon,
-      instituteName: settingsSheet.institute_name || fallbackData.settings.instituteName
+      primaryColor: settingValue(settingsSheet, ["primary_color"], fallbackData.settings.primaryColor),
+      secondaryColor: settingValue(settingsSheet, ["secondary_color"], fallbackData.settings.secondaryColor),
+      supportNumber: settingValue(settingsSheet, ["support_number"], fallbackData.settings.supportNumber),
+      email: settingValue(settingsSheet, ["email"], fallbackData.settings.email),
+      whatsappLink: settingValue(
+        settingsSheet,
+        ["whatsapp_link", "whats_app_link"],
+        fallbackData.settings.whatsappLink
+      ),
+      logo: settingValue(settingsSheet, ["logo"], fallbackData.settings.logo),
+      favicon: settingValue(settingsSheet, ["favicon"], fallbackData.settings.favicon),
+      instituteName: settingValue(settingsSheet, ["institute_name"], fallbackData.settings.instituteName)
     };
 
-    const activeBatch = makeBatch(homeSheet, joinSheet, "active", fallbackData.home.activeBatch);
-    const comingBatch = makeBatch(homeSheet, joinSheet, "coming", fallbackData.home.comingBatch);
+    const join = makeJoinContent(joinRows, homeSheet, joinSheet);
+    const activeBatch = join.activeBatches[0] || fallbackData.home.activeBatch;
+    const comingBatch = join.upcomingBatches[0] || fallbackData.home.comingBatch;
 
     return withArrayFallbacks({
       settings,
@@ -219,8 +235,8 @@ async function loadGoogleWebsiteData(): Promise<WebsiteData | null> {
         }))
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()),
       join: {
-        activeBatch,
-        comingBatch
+        activeBatches: join.activeBatches,
+        upcomingBatches: join.upcomingBatches
       },
       contact: makeContact(contactSheet),
       socialLinks: socialRows.map<SocialLink>((row) => ({
@@ -257,6 +273,12 @@ function makeBatch(
     semester:
       homeSheet[`${prefix}_batch_semester`] || joinSheet[`${prefix}_batch_semester`] || fallback.semester,
     session: homeSheet[`${prefix}_batch_session`] || joinSheet[`${prefix}_batch_session`] || fallback.session,
+    description:
+      homeSheet[`${prefix}_batch_description`] ||
+      joinSheet[`${prefix}_batch_description`] ||
+      fallback.description,
+    fees: homeSheet[`${prefix}_batch_fees`] || joinSheet[`${prefix}_batch_fees`] || fallback.fees,
+    timing: homeSheet[`${prefix}_batch_timing`] || joinSheet[`${prefix}_batch_timing`] || fallback.timing,
     button:
       homeSheet[`${prefix}_batch_button`] ||
       joinSheet[`${prefix}_batch_button`] ||
@@ -270,6 +292,59 @@ function makeBatch(
       joinSheet[`${prefix}_form`] ||
       fallback.formUrl,
     status: prefix === "active" ? "active" : "coming"
+  };
+}
+
+function makeJoinContent(
+  rows: Record<string, unknown>[],
+  homeSheet: Record<string, string>,
+  joinSheet: Record<string, string>
+): WebsiteData["join"] {
+  const batches = rows
+    .map((row) => makeBatchFromRow(row))
+    .filter((batch): batch is Batch => Boolean(batch));
+
+  const activeBatches = batches.filter((batch) => batch.status === "active");
+  const upcomingBatches = batches.filter((batch) => batch.status === "coming");
+
+  if (activeBatches.length || upcomingBatches.length) {
+    return {
+      activeBatches: activeBatches.length ? activeBatches : fallbackData.join.activeBatches,
+      upcomingBatches: upcomingBatches.length ? upcomingBatches : fallbackData.join.upcomingBatches
+    };
+  }
+
+  return {
+    activeBatches: [makeBatch(homeSheet, joinSheet, "active", fallbackData.home.activeBatch)],
+    upcomingBatches: [makeBatch(homeSheet, joinSheet, "coming", fallbackData.home.comingBatch)]
+  };
+}
+
+function makeBatchFromRow(row: Record<string, unknown>): Batch | null {
+  const statusValue = pick(row, ["Status"]).toLowerCase();
+  const status = ["active", "live", "running"].includes(statusValue)
+    ? "active"
+    : ["upcoming", "coming", "coming soon"].includes(statusValue)
+      ? "coming"
+      : null;
+
+  if (!status) {
+    return null;
+  }
+
+  const fallback = status === "active" ? fallbackData.home.activeBatch : fallbackData.home.comingBatch;
+
+  return {
+    title: pick(row, ["Title"], fallback.title),
+    branch: pick(row, ["Branch"], fallback.branch),
+    semester: pick(row, ["Semester"], fallback.semester),
+    session: pick(row, ["Session"], fallback.session),
+    description: pick(row, ["Description", "Details"], fallback.description),
+    fees: pick(row, ["Fees", "Fee"], fallback.fees),
+    timing: pick(row, ["Timing", "Time"], fallback.timing),
+    button: pick(row, ["Button", "Button Text"], fallback.button),
+    formUrl: pick(row, ["Form URL", "Form Url", "Form", "Google Form"], fallback.formUrl),
+    status
   };
 }
 

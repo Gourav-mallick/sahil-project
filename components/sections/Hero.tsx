@@ -1,7 +1,6 @@
 import Image from "next/image";
-import { ArrowRight, Headphones, NotebookPen, PlayCircle, Target } from "lucide-react";
+import { ArrowRight, CalendarCheck, Headphones, NotebookPen, PlayCircle, Target } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { BatchCard } from "@/components/BatchCard";
 import { MotionReveal } from "@/components/MotionReveal";
 import { YouTubePlayer } from "@/components/YouTubePlayer";
 import type { HomeContent, Settings } from "@/types/content";
@@ -10,6 +9,8 @@ import { assetPath } from "@/utils/assets";
 type HeroProps = {
   home: HomeContent;
   settings: Settings;
+  activeBatchCount: number;
+  upcomingBatchCount: number;
 };
 
 const valueProps: Array<[string, LucideIcon]> = [
@@ -19,7 +20,7 @@ const valueProps: Array<[string, LucideIcon]> = [
   ["Doubt Support", Headphones]
 ];
 
-export function Hero({ home, settings }: HeroProps) {
+export function Hero({ home, settings, activeBatchCount, upcomingBatchCount }: HeroProps) {
   const heroImage = assetPath(home.heroImage);
 
   return (
@@ -83,12 +84,53 @@ export function Hero({ home, settings }: HeroProps) {
               </div>
             )}
             <div className="mt-5 grid gap-4 md:grid-cols-2">
-              <BatchCard batch={home.activeBatch} />
-              <BatchCard batch={home.comingBatch} compact />
+              <HeroBatchSummaryCard
+                title="Current Active Batches"
+                count={activeBatchCount}
+                description="View all running batches with full details."
+                button="View Active Batches"
+              />
+              <HeroBatchSummaryCard
+                title="Upcoming Batches"
+                count={upcomingBatchCount}
+                description="Check upcoming sessions and registration details."
+                button="View Upcoming Batches"
+                muted
+              />
             </div>
           </div>
         </MotionReveal>
       </div>
     </section>
+  );
+}
+
+function HeroBatchSummaryCard({
+  title,
+  count,
+  description,
+  button,
+  muted = false
+}: {
+  title: string;
+  count: number;
+  description: string;
+  button: string;
+  muted?: boolean;
+}) {
+  return (
+    <article className="card p-5 transition duration-300 hover:-translate-y-1 hover:border-primary/40">
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <span className="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-primary">{title}</span>
+        <CalendarCheck className="h-5 w-5 text-primary" aria-hidden="true" />
+      </div>
+      <p className="font-heading text-4xl font-extrabold text-secondary">{count}</p>
+      <p className="mt-1 text-sm font-semibold text-muted">{count === 1 ? "batch available" : "batches available"}</p>
+      <p className="mt-4 text-sm leading-6 text-muted">{description}</p>
+      <a href="#join" className={muted ? "secondary-button mt-5 w-full" : "gradient-button mt-5 w-full"}>
+        {button}
+        <ArrowRight className="h-4 w-4" aria-hidden="true" />
+      </a>
+    </article>
   );
 }

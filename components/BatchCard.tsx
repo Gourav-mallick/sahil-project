@@ -1,4 +1,4 @@
-import { ArrowUpRight, CalendarDays, GraduationCap } from "lucide-react";
+import { ArrowUpRight, CalendarDays, Clock3, GraduationCap, IndianRupee } from "lucide-react";
 import type { Batch } from "@/types/content";
 
 type BatchCardProps = {
@@ -22,7 +22,20 @@ export function BatchCard({ batch, compact = false }: BatchCardProps) {
           {batch.semester}
         </p>
         <p>{batch.session}</p>
+        {batch.timing ? (
+          <p className="flex items-center gap-2">
+            <Clock3 className="h-4 w-4 text-primary" aria-hidden="true" />
+            {batch.timing}
+          </p>
+        ) : null}
+        {batch.fees ? (
+          <p className="flex items-center gap-2">
+            <IndianRupee className="h-4 w-4 text-primary" aria-hidden="true" />
+            {batch.fees}
+          </p>
+        ) : null}
       </div>
+      {batch.description ? <p className="mt-4 text-sm leading-6 text-muted">{batch.description}</p> : null}
       <a
         href={batch.formUrl}
         target="_blank"

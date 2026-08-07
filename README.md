@@ -178,7 +178,24 @@ Supported icon examples: `zap`, `circuit-board`, `radio`, `building-2`, `book-op
 
 ### Join
 
-Same batch keys as `Home` can be used here. `Home` values take priority when present.
+Use one row per batch card. Add as many active or upcoming rows as needed.
+
+| Status | Title | Branch | Semester | Session | Description | Fees | Timing | Form URL | Button |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| active | Active Batch | Electrical Engineering | 4th Semester | Session 2024-2027 | Full syllabus live classes | Contact for fees | 7:00 PM | Google Form URL | Join Now |
+| active | Active Batch | Civil Engineering | 3rd Semester | Session 2024-2027 | Notes plus practice | Contact for fees | 8:00 PM | Google Form URL | Join Now |
+| upcoming | Coming Soon | 1st Semester | All Branches | Session 2026-2029 | Foundation batch | Announcing soon | Coming soon | Google Form URL | Register Now |
+
+Allowed `Status` values:
+
+```text
+active
+upcoming
+coming
+coming soon
+```
+
+The hero section uses the first `active` row and first `upcoming` row from this sheet.
 
 ### Contact
 

@@ -14,6 +14,9 @@ export type Batch = {
   branch: string;
   semester: string;
   session: string;
+  description: string;
+  fees: string;
+  timing: string;
   button: string;
   formUrl: string;
   status: "active" | "coming";
@@ -62,8 +65,8 @@ export type NoticeItem = {
 };
 
 export type JoinContent = {
-  activeBatch: Batch;
-  comingBatch: Batch;
+  activeBatches: Batch[];
+  upcomingBatches: Batch[];
 };
 
 export type ContactContent = {

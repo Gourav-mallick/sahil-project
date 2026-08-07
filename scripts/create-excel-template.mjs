@@ -66,9 +66,55 @@ const sheets = {
     ["2026-08-06", "Active batch enrollment open", "Electrical Engineering 4th Semester enrollment is open.", "yes"]
   ],
   Join: [
-    ["key", "value"],
-    ["active_batch_form", "https://forms.google.com"],
-    ["coming_batch_form", "https://forms.google.com"]
+    ["Status", "Title", "Branch", "Semester", "Session", "Description", "Fees", "Timing", "Form URL", "Button"],
+    [
+      "active",
+      "Active Batch",
+      "Electrical Engineering",
+      "4th Semester",
+      "Session 2024-2027",
+      "Full syllabus live classes with notes, practice questions, and doubt support.",
+      "Contact for fees",
+      "7:00 PM",
+      "https://forms.google.com",
+      "Join Now"
+    ],
+    [
+      "active",
+      "Active Batch",
+      "Electrical & Electronics Engineering",
+      "4th Semester",
+      "Session 2024-2027",
+      "Subject-wise support with weekly practice and doubt clearing.",
+      "Contact for fees",
+      "8:00 PM",
+      "https://forms.google.com",
+      "Join Now"
+    ],
+    [
+      "upcoming",
+      "Coming Soon",
+      "1st Semester",
+      "All Branches",
+      "Session 2026-2029",
+      "Foundation batch for new diploma students.",
+      "Announcing soon",
+      "Coming soon",
+      "https://forms.google.com",
+      "Register Now"
+    ],
+    [
+      "upcoming",
+      "Coming Soon",
+      "Civil Engineering",
+      "3rd Semester",
+      "Session 2025-2028",
+      "Upcoming civil branch semester batch.",
+      "Announcing soon",
+      "Coming soon",
+      "https://forms.google.com",
+      "Register Now"
+    ]
   ],
   Contact: [
     ["key", "value"],

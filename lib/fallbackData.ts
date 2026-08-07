@@ -5,6 +5,9 @@ const activeBatch = {
   branch: "Electrical Engineering",
   semester: "4th Semester",
   session: "Session 2024-2027",
+  description: "Full syllabus live classes with notes, practice questions, and doubt support.",
+  fees: "Contact for fees",
+  timing: "Evening batch",
   button: "Join Now",
   formUrl: "https://forms.google.com",
   status: "active" as const
@@ -15,6 +18,9 @@ const comingBatch = {
   branch: "1st Semester",
   semester: "All Branches",
   session: "Session 2026-2029",
+  description: "Foundation batch for new diploma students with concept clarity from day one.",
+  fees: "Announcing soon",
+  timing: "Coming soon",
   button: "Register Now",
   formUrl: "https://forms.google.com",
   status: "coming" as const
@@ -110,8 +116,24 @@ export const fallbackData: WebsiteData = {
     }
   ],
   join: {
-    activeBatch,
-    comingBatch
+    activeBatches: [
+      activeBatch,
+      {
+        ...activeBatch,
+        branch: "Electrical & Electronics Engineering",
+        semester: "4th Semester",
+        timing: "Weekend support"
+      }
+    ],
+    upcomingBatches: [
+      comingBatch,
+      {
+        ...comingBatch,
+        branch: "Civil Engineering",
+        semester: "3rd Semester",
+        session: "Session 2025-2028"
+      }
+    ]
   },
   contact: {
     title: "Contact Support",

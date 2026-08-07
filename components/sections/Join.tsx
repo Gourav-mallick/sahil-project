@@ -17,15 +17,38 @@ export function Join({ join, settings }: JoinProps) {
           <p className="mt-4 leading-7 text-muted">Need help before joining? Call {settings.supportNumber}.</p>
         </MotionReveal>
 
-        <div className="mx-auto mt-10 grid max-w-4xl gap-5 md:grid-cols-2">
-          <MotionReveal>
-            <BatchCard batch={join.activeBatch} />
-          </MotionReveal>
-          <MotionReveal delay={0.08}>
-            <BatchCard batch={join.comingBatch} compact />
-          </MotionReveal>
-        </div>
+        <BatchGroup title="Active Batches" batches={join.activeBatches} />
+        <BatchGroup title="Upcoming Batches" batches={join.upcomingBatches} compact />
       </div>
     </section>
+  );
+}
+
+function BatchGroup({
+  title,
+  batches,
+  compact = false
+}: {
+  title: string;
+  batches: JoinContent["activeBatches"];
+  compact?: boolean;
+}) {
+  if (!batches.length) {
+    return null;
+  }
+
+  return (
+    <div className="mt-12">
+      <MotionReveal>
+        <h3 className="font-heading text-2xl font-bold text-secondary">{title}</h3>
+      </MotionReveal>
+      <div className="mt-5 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+        {batches.map((batch, index) => (
+          <MotionReveal key={`${batch.status}-${batch.branch}-${batch.semester}-${index}`} delay={index * 0.04}>
+            <BatchCard batch={batch} compact={compact} />
+          </MotionReveal>
+        ))}
+      </div>
+    </div>
   );
 }

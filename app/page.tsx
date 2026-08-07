@@ -37,7 +37,12 @@ export default async function HomePage() {
       />
       <Navbar settings={data.settings} socialLinks={data.socialLinks} />
       <main>
-        <Hero home={data.home} settings={data.settings} />
+        <Hero
+          home={data.home}
+          settings={data.settings}
+          activeBatchCount={data.join.activeBatches.length}
+          upcomingBatchCount={data.join.upcomingBatches.length}
+        />
         <About about={data.about} faculty={data.faculty} />
         <Courses courses={data.courses} />
         <WhyChooseUs items={data.whyChooseUs} />
