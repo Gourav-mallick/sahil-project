@@ -262,17 +262,7 @@ export function Testimonials({ testimonials }: TestimonialsProps) {
                 </div>
               )}
 
-              <div className="pt-1">
-                <a
-                  href={attachmentLink}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 text-xs font-medium text-primary underline decoration-dotted underline-offset-2"
-                >
-                  <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary/10 text-[10px] font-bold">📎</span>
-                  Open form link
-                </a>
-              </div>
+            
 
               <button
                 type="submit"
