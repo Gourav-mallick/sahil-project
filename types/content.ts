@@ -29,6 +29,10 @@ export type HomeContent = {
   heroVideoUrl: string;
   activeBatch: Batch;
   comingBatch: Batch;
+  careerGuidanceTitle: string;
+  careerGuidanceDescription: string;
+  careerGuidanceFormUrl: string;
+  careerGuidanceButton: string;
 };
 
 export type AboutContent = {

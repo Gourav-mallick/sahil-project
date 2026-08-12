@@ -138,6 +138,10 @@ Use one workbook named `website-data.xlsx`.
 | coming_batch_session | Session 2026-2029 |
 | coming_batch_button | Register Now |
 | coming_batch_form | Google Form URL |
+| career_guidance_title | Career Guidance |
+| career_guidance_description | Career guidance section text |
+| career_guidance_form_url | Google Form URL |
+| career_guidance_button | Book Guidance |
 | why_choose_us | Live Classes \| Easy Teaching \| Complete Syllabus |
 | enrollment_steps | Click Join Now \| Google Form Opens \| Fill Student Details |
 

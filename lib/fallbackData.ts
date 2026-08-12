@@ -43,7 +43,12 @@ export const fallbackData: WebsiteData = {
     heroImage: "",
     heroVideoUrl: "https://www.youtube.com/watch?v=szj5j8-9L_c",
     activeBatch,
-    comingBatch
+    comingBatch,
+    careerGuidanceTitle: "Career Guidance",
+    careerGuidanceDescription:
+      "Get personal guidance for branch choice, semester planning, exams, jobs, and higher studies.",
+    careerGuidanceFormUrl: "https://forms.google.com",
+    careerGuidanceButton: "Book Guidance"
   },
   about: {
     title: "About Diploma Coaching",

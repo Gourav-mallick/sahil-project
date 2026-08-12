@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowRight, CalendarCheck, Headphones, NotebookPen, PlayCircle, Target } from "lucide-react";
+import { ArrowRight, Compass, Headphones, NotebookPen, PlayCircle, Target } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { MotionReveal } from "@/components/MotionReveal";
 import { YouTubePlayer } from "@/components/YouTubePlayer";
@@ -9,8 +9,6 @@ import { assetPath } from "@/utils/assets";
 type HeroProps = {
   home: HomeContent;
   settings: Settings;
-  activeBatchCount: number;
-  upcomingBatchCount: number;
 };
 
 const valueProps: Array<[string, LucideIcon]> = [
@@ -20,7 +18,7 @@ const valueProps: Array<[string, LucideIcon]> = [
   ["Doubt Support", Headphones]
 ];
 
-export function Hero({ home, settings, activeBatchCount, upcomingBatchCount }: HeroProps) {
+export function Hero({ home, settings }: HeroProps) {
   const heroImage = assetPath(home.heroImage);
 
   return (
@@ -45,7 +43,7 @@ export function Hero({ home, settings, activeBatchCount, upcomingBatchCount }: H
             </div>
 
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <a href={home.activeBatch.formUrl} target="_blank" rel="noreferrer" className="gradient-button">
+              <a href="#join" className="gradient-button">
                 Join Active Batch
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </a>
@@ -83,21 +81,7 @@ export function Hero({ home, settings, activeBatchCount, upcomingBatchCount }: H
                 )}
               </div>
             )}
-            <div className="mt-5 grid gap-4 md:grid-cols-2">
-              <HeroBatchSummaryCard
-                title="Current Active Batches"
-                count={activeBatchCount}
-                description="View all running batches with full details."
-                button="View Active Batches"
-              />
-              <HeroBatchSummaryCard
-                title="Upcoming Batches"
-                count={upcomingBatchCount}
-                description="Check upcoming sessions and registration details."
-                button="View Upcoming Batches"
-                muted
-              />
-            </div>
+            <CareerGuidanceCard home={home} />
           </div>
         </MotionReveal>
       </div>
@@ -105,30 +89,24 @@ export function Hero({ home, settings, activeBatchCount, upcomingBatchCount }: H
   );
 }
 
-function HeroBatchSummaryCard({
-  title,
-  count,
-  description,
-  button,
-  muted = false
-}: {
-  title: string;
-  count: number;
-  description: string;
-  button: string;
-  muted?: boolean;
-}) {
+function CareerGuidanceCard({ home }: { home: HomeContent }) {
   return (
-    <article className="card p-5 transition duration-300 hover:-translate-y-1 hover:border-primary/40">
+    <article className="card mt-5 p-5 transition duration-300 hover:-translate-y-1 hover:border-primary/40">
       <div className="mb-4 flex items-center justify-between gap-3">
-        <span className="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-primary">{title}</span>
-        <CalendarCheck className="h-5 w-5 text-primary" aria-hidden="true" />
+        <span className="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-primary">
+          {home.careerGuidanceTitle}
+        </span>
+        <Compass className="h-5 w-5 text-primary" aria-hidden="true" />
       </div>
-      <p className="font-heading text-4xl font-extrabold text-secondary">{count}</p>
-      <p className="mt-1 text-sm font-semibold text-muted">{count === 1 ? "batch available" : "batches available"}</p>
-      <p className="mt-4 text-sm leading-6 text-muted">{description}</p>
-      <a href="#join" className={muted ? "secondary-button mt-5 w-full" : "gradient-button mt-5 w-full"}>
-        {button}
+      <h3 className="font-heading text-2xl font-bold text-secondary">{home.careerGuidanceTitle}</h3>
+      <p className="mt-3 text-sm leading-6 text-muted">{home.careerGuidanceDescription}</p>
+      <a
+        href={home.careerGuidanceFormUrl}
+        target="_blank"
+        rel="noreferrer"
+        className="gradient-button mt-5 w-full"
+      >
+        {home.careerGuidanceButton}
         <ArrowRight className="h-4 w-4" aria-hidden="true" />
       </a>
     </article>

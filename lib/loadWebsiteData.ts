@@ -80,7 +80,15 @@ export async function loadWebsiteData(): Promise<WebsiteData | null> {
         heroImage: homeSheet.hero_image || fallbackData.home.heroImage,
         heroVideoUrl: homeSheet.hero_video_url || fallbackData.home.heroVideoUrl,
         activeBatch,
-        comingBatch
+        comingBatch,
+        careerGuidanceTitle:
+          homeSheet.career_guidance_title || fallbackData.home.careerGuidanceTitle,
+        careerGuidanceDescription:
+          homeSheet.career_guidance_description || fallbackData.home.careerGuidanceDescription,
+        careerGuidanceFormUrl:
+          homeSheet.career_guidance_form_url || fallbackData.home.careerGuidanceFormUrl,
+        careerGuidanceButton:
+          homeSheet.career_guidance_button || fallbackData.home.careerGuidanceButton
       },
       about: {
         title: aboutSheet.title || fallbackData.about.title,
@@ -200,7 +208,15 @@ async function loadGoogleWebsiteData(): Promise<WebsiteData | null> {
         heroImage: homeSheet.hero_image || fallbackData.home.heroImage,
         heroVideoUrl: homeSheet.hero_video_url || fallbackData.home.heroVideoUrl,
         activeBatch,
-        comingBatch
+        comingBatch,
+        careerGuidanceTitle:
+          homeSheet.career_guidance_title || fallbackData.home.careerGuidanceTitle,
+        careerGuidanceDescription:
+          homeSheet.career_guidance_description || fallbackData.home.careerGuidanceDescription,
+        careerGuidanceFormUrl:
+          homeSheet.career_guidance_form_url || fallbackData.home.careerGuidanceFormUrl,
+        careerGuidanceButton:
+          homeSheet.career_guidance_button || fallbackData.home.careerGuidanceButton
       },
       about: {
         title: aboutSheet.title || fallbackData.about.title,

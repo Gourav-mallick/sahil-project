@@ -35,6 +35,13 @@ const sheets = {
     ["coming_batch_session", "Session 2026-2029"],
     ["coming_batch_button", "Register Now"],
     ["coming_batch_form", "https://forms.google.com"],
+    ["career_guidance_title", "Career Guidance"],
+    [
+      "career_guidance_description",
+      "Get personal guidance for branch choice, semester planning, exams, jobs, and higher studies."
+    ],
+    ["career_guidance_form_url", "https://forms.google.com"],
+    ["career_guidance_button", "Book Guidance"],
     ["why_choose_us", "Live Classes|Easy Teaching|Complete Syllabus|Handwritten Notes|PDF Notes|Practice Questions|Doubt Solving|Affordable Fees|Mobile Friendly|Personal Support"],
     ["enrollment_steps", "Click Join Now|Google Form Opens|Fill Student Details|Pay Fees|Upload Payment Screenshot|Submit|Receive WhatsApp Confirmation"]
   ],

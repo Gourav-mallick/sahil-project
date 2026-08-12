@@ -45,8 +45,6 @@ export default async function HomePage() {
         <Hero
           home={data.home}
           settings={data.settings}
-          activeBatchCount={data.join.activeBatches.length}
-          upcomingBatchCount={data.join.upcomingBatches.length}
         />
         <About about={data.about} faculty={data.faculty} />
         <Courses courses={data.courses} />
