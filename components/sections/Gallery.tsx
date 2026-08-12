@@ -50,7 +50,7 @@ export function Gallery({ gallery }: GalleryProps) {
                     />
                   ) : (
                     <div className="flex h-48 w-full items-center justify-center bg-gradient-to-br from-gray-100 to-amber-100 font-heading font-bold text-secondary">
-                      Diploma Coaching
+                      Diploma Coching
                     </div>
                   )}
                   <p className="p-4 text-sm font-semibold text-secondary">{item.caption}</p>

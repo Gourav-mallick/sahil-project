@@ -35,7 +35,7 @@ export const fallbackData: WebsiteData = {
     whatsappLink: "https://wa.me/917870948200",
     logo: "",
     favicon: "favicon.ico",
-    instituteName: "Diploma Coaching"
+    instituteName: "Diploma Coching"
   },
   home: {
     heroTitle: "Jharkhand Polytechnic Online Tuition",
@@ -51,7 +51,7 @@ export const fallbackData: WebsiteData = {
     careerGuidanceButton: "Book Guidance"
   },
   about: {
-    title: "About Diploma Coaching",
+    title: "About Diploma Coching",
     description:
       "A focused online tuition platform for Jharkhand Polytechnic students who want concept clarity, exam preparation, and personal academic support.",
     mission: "Make quality diploma education affordable and accessible from home.",

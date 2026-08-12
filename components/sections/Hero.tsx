@@ -74,7 +74,7 @@ export function Hero({ home, settings }: HeroProps) {
                 ) : (
                   <div className="flex h-56 w-full items-center justify-center bg-gradient-to-br from-secondary via-gray-800 to-amber-900 text-center text-white sm:h-72">
                     <div>
-                      <p className="font-heading text-3xl font-bold">Diploma Coaching</p>
+                      <p className="font-heading text-3xl font-bold">Diploma Coching</p>
                       <p className="mt-2 text-sm text-amber-100">Live classes for diploma students</p>
                     </div>
                   </div>
