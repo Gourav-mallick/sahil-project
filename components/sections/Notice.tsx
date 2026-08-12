@@ -1,4 +1,4 @@
-import { Megaphone } from "lucide-react";
+import { ExternalLink, Megaphone } from "lucide-react";
 import { MotionReveal } from "@/components/MotionReveal";
 import type { NoticeItem } from "@/types/content";
 
@@ -37,6 +37,18 @@ export function Notice({ notices }: NoticeProps) {
               </div>
               <h3 className="font-heading text-xl font-bold text-secondary">{notice.title}</h3>
               <p className="mt-3 text-sm leading-7 text-muted">{notice.description}</p>
+
+              {notice.attachmentUrl ? (
+                <a
+                  href={notice.attachmentUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1.5 text-xs font-semibold text-primary transition hover:border-primary hover:bg-primary/10"
+                >
+                  <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+                  Open attachment
+                </a>
+              ) : null}
             </MotionReveal>
           ))}
         </div>

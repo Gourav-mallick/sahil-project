@@ -119,6 +119,23 @@ export async function loadWebsiteData(): Promise<WebsiteData | null> {
           description: pick(row, ["Description"]),
           important: ["yes", "true", "important", "1"].includes(
             pick(row, ["Important", "Highlight"]).toLowerCase()
+          ),
+          attachmentUrl: pick(
+            row,
+            [
+              "Attachment URL",
+              "AttachmentUrl",
+              "Attachment",
+              "URL",
+              "Link",
+              "PDF URL",
+              "Pdf URL",
+              "File URL",
+              "Drive Link",
+              "Document URL",
+              "Google Drive Link"
+            ],
+            ""
           )
         }))
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()),
@@ -134,12 +151,20 @@ export async function loadWebsiteData(): Promise<WebsiteData | null> {
         })
       ),
       testimonials: readTableSheet<Record<string, unknown>>(workbook, "Testimonials").map<Testimonial>(
-        (row) => ({
-          studentName: pick(row, ["Student Name", "Name"], fallbackData.testimonials[0].studentName),
-          review: pick(row, ["Review"], fallbackData.testimonials[0].review),
-          rating: Number(pick(row, ["Rating"], String(fallbackData.testimonials[0].rating))) || 5,
-          image: pick(row, ["Image"], fallbackData.testimonials[0].image)
-        })
+        (row) => {
+          const details = pick(row, ["Details"], "");
+          const whatYouLike = pick(row, ["What You Like", "What_You_Like"], "");
+          const reviewText = [details, whatYouLike].filter(Boolean).join(" ") || pick(row, ["Review"], fallbackData.testimonials[0].review);
+
+          return {
+            studentName: pick(row, ["Student Name", "Name"], fallbackData.testimonials[0].studentName),
+            review: reviewText,
+            details: details || undefined,
+            whatYouLike: whatYouLike || undefined,
+            rating: Number(pick(row, ["Rating"], String(fallbackData.testimonials[0].rating))) || 5,
+            image: pick(row, ["Image"], fallbackData.testimonials[0].image)
+          };
+        }
       ),
       gallery: readTableSheet<Record<string, unknown>>(workbook, "Gallery").map<GalleryItem>((row) => ({
         image: pick(row, ["Image"]),
@@ -247,6 +272,23 @@ async function loadGoogleWebsiteData(): Promise<WebsiteData | null> {
           description: pick(row, ["Description"]),
           important: ["yes", "true", "important", "1"].includes(
             pick(row, ["Important", "Highlight"]).toLowerCase()
+          ),
+          attachmentUrl: pick(
+            row,
+            [
+              "Attachment URL",
+              "AttachmentUrl",
+              "Attachment",
+              "URL",
+              "Link",
+              "PDF URL",
+              "Pdf URL",
+              "File URL",
+              "Drive Link",
+              "Document URL",
+              "Google Drive Link"
+            ],
+            ""
           )
         }))
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()),
@@ -259,12 +301,20 @@ async function loadGoogleWebsiteData(): Promise<WebsiteData | null> {
         platform: pick(row, ["Platform"]),
         url: pick(row, ["URL", "Url"])
       })),
-      testimonials: testimonialRows.map<Testimonial>((row) => ({
-        studentName: pick(row, ["Student Name", "Name"], fallbackData.testimonials[0].studentName),
-        review: pick(row, ["Review"], fallbackData.testimonials[0].review),
-        rating: Number(pick(row, ["Rating"], String(fallbackData.testimonials[0].rating))) || 5,
-        image: pick(row, ["Image"], fallbackData.testimonials[0].image)
-      })),
+      testimonials: testimonialRows.map<Testimonial>((row) => {
+        const details = pick(row, ["Details"], "");
+        const whatYouLike = pick(row, ["What You Like", "What_You_Like"], "");
+        const reviewText = [details, whatYouLike].filter(Boolean).join(" ") || pick(row, ["Review"], fallbackData.testimonials[0].review);
+
+        return {
+          studentName: pick(row, ["Student Name", "Name"], fallbackData.testimonials[0].studentName),
+          review: reviewText,
+          details: details || undefined,
+          whatYouLike: whatYouLike || undefined,
+          rating: Number(pick(row, ["Rating"], String(fallbackData.testimonials[0].rating))) || 5,
+          image: pick(row, ["Image"], fallbackData.testimonials[0].image)
+        };
+      }),
       gallery: galleryRows.map<GalleryItem>((row) => ({
         image: pick(row, ["Image"]),
         caption: pick(row, ["Caption"])

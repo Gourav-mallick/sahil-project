@@ -66,6 +66,7 @@ export type NoticeItem = {
   title: string;
   description: string;
   important: boolean;
+  attachmentUrl?: string;
 };
 
 export type JoinContent = {
@@ -87,6 +88,8 @@ export type SocialLink = {
 export type Testimonial = {
   studentName: string;
   review: string;
+  details?: string;
+  whatYouLike?: string;
   rating: number;
   image: string;
 };
