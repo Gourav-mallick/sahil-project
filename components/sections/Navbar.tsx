@@ -10,9 +10,9 @@ const navItems = [
   ["Home", "#home"],
   ["About", "#about"],
   ["Courses", "#courses"],
-  ["FAQ", "#faq"],
-  ["Notice", "#notice"],
   ["Join", "#join"],
+  ["Notice", "#notice"],
+  ["FAQ", "#faq"],
   ["Contact", "#contact"]
 ];
 
