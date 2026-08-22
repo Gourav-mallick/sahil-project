@@ -55,3 +55,4 @@ temp/
 .npm-cache/
 .playwright-browsers/
 screenshots/
+local_cache/

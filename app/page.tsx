@@ -1,4 +1,5 @@
 import { About } from "@/components/sections/About";
+import { Chatbot } from "@/components/Chatbot";
 import { Contact } from "@/components/sections/Contact";
 import { Courses } from "@/components/sections/Courses";
 import { FAQ } from "@/components/sections/FAQ";
@@ -50,6 +51,7 @@ export default async function HomePage() {
         <Contact contact={data.contact} settings={data.settings} />
       </main>
       <Footer settings={data.settings} socialLinks={data.socialLinks} />
+      <Chatbot />
     </>
   );
 }

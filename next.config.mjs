@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  experimental: {
+    serverComponentsExternalPackages: ["fastembed", "onnxruntime-node", "@anush008/tokenizers"]
+  },
   images: {
     remotePatterns: [
       {
